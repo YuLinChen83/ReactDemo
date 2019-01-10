@@ -1,14 +1,19 @@
 // import types from '../actions/types';
-import fakeData from '../actions/fakeData';
+import albumData from '../actions/fakeData';
 
 const initialState = {
-  fakeData,
+  albumData,
   modal: false,
   cart: []
 };
 
 const album = (state = initialState, action) => {
   switch (action.type) {
+    case "FETCH_ALBUM_API":
+      return {
+        ...state,
+        albumData: action.albumData
+      }
     case "TOGGLE_MODAL":
       return {
         ...state,

@@ -1,3 +1,8 @@
+const fetchAlbumApi = albumData => ({
+  type: "FETCH_ALBUM_API",
+  albumData
+})
+
 const toggleShoppingCartModal = () => ({
   type: "TOGGLE_MODAL"
 })
@@ -13,6 +18,7 @@ const deleteCartItem = index => ({
 })
 
 export default {
+  fetchAlbumApi,
   toggleShoppingCartModal,
   addToCart,
   deleteCartItem

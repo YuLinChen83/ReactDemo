@@ -1,32 +1,28 @@
-import React from 'react'
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import Actions from '../actions/albumAction';
 import ShoppingCartModal from './ShoppingCartModal'
-
 import {
   Container, Row, Col, Jumbotron, Button,
   Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Badge
 } from 'reactstrap';
 
-const AlbumProducts = ({ albums, cart, modal, toggle, addToCart, deleteCartItem }) => {
-  return (
-    <Container>
+class AlbumProducts extends Component {
+  componentDidMount = async () => {
+    const data = await fetch('https://demojson.herokuapp.com/cart').then(response => response.json());
+    this.props.fetchAlbumApi(data);
+  }
+  render() {
+    const { albums, cart, modal, toggle, addToCart, deleteCartItem } = this.props;
+    return (
+      <Container>
       <Row>
         <Col md={12}>
           <Jumbotron>
-            <h1 className="display-3">美客唱片</h1>
+            <h1 className="display-3">React Redux Demo</h1>
             <p className="lead">
-              美客唱片成立以來，結合實體唱片通路、唱片公司、網站，因而擁有豐富、完整的音樂資源
-            </p>
-            <p className="lead">
-              並與電視、廣播等媒體進行策略聯盟，已迅速打響知名度，並廣受各界好評
-            </p>
-            <p className="lead">
-              不僅如此，美客唱片將跨足大中華地區，透過舉辦跨國、跨區域的大型頒獎典禮、演唱會以及音樂活動
-            </p>
-            <p className="lead">
-              進一步擴大影響力，提昇流行音樂產業的動能
+              將網路 react 練習用 redux 改寫
             </p>
             <hr className="my-2" />
             <p className="lead">
@@ -65,16 +61,18 @@ const AlbumProducts = ({ albums, cart, modal, toggle, addToCart, deleteCartItem 
       </Row>
       <ShoppingCartModal modal={modal} cart={cart} toggle={toggle} deleteCartItem={deleteCartItem} />
     </Container>
-  )
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-  albums: state.album.fakeData,
+  albums: state.album.albumData,
   modal: state.album.modal,
   cart: state.album.cart,
 })
 
 const mapDispatchToProps = {
+  fetchAlbumApi: albumData => Actions.fetchAlbumApi(albumData),
   toggle: () => Actions.toggleShoppingCartModal(),
   addToCart: product => Actions.addToCart(product),
   deleteCartItem: index => Actions.deleteCartItem(index),
